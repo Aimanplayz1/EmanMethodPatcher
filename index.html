@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eman Method</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #0a0e1a;
+      color: #e5e7eb;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a:hover {
+      color: #3b82f6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero h1 .highlight {
+      color: #3b82f6;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #9ca3af;
+      max-width: 700px;
+      margin: 0 auto 10px;
+      line-height: 1.6;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    .feature-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(59, 130, 246, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      min-width: 40px;
+    }
+
+    .feature-content h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #e5e7eb;
+    }
+
+    .feature-content p {
+      font-size: 14px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .feature-content .accent {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    .upload-section {
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 20px;
+      padding: 50px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .upload-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .upload-header h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .upload-header p {
+      color: #9ca3af;
+      font-size: 16px;
+    }
+
+    .dropzone {
+      border: 3px dashed rgba(59, 130, 246, 0.4);
+      border-radius: 16px;
+      padding: 80px 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(15, 23, 42, 0.5);
+      margin-bottom: 30px;
+    }
+
+    .dropzone:hover {
+      border-color: #3b82f6;
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .dropzone.dragover {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.1);
+      transform: scale(1.01);
+    }
+
+    .dropzone-icon {
+      font-size: 72px;
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+
+    .dropzone-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 8px;
+    }
+
+    .dropzone-subtext {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .file-info {
+      display: none;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .file-info.active {
+      display: flex;
+    }
+
+    .file-icon {
+      font-size: 36px;
+    }
+
+    .file-details {
+      flex: 1;
+    }
+
+    .file-name {
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 6px;
+      word-break: break-all;
+    }
+
+    .file-size {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    .remove-btn {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+    }
+
+    .patch-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 18px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .patch-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(59, 130, 246, 0.5);
+    }
+
+    .patch-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .patch-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    .status.active {
+      display: block;
+    }
+
+    .status.info {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .status.success {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .status.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(30, 41, 59, 0.8);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .progress-bar.active {
+      display: block;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .container {
+        padding: 40px 20px;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .upload-section {
+        padding: 30px 20px;
+      }
+
+      .upload-header h2 {
+        font-size: 24px;
+      }
+
+      .dropzone {
+        padding: 50px 20px;
+      }
+
+      .dropzone-icon {
+        font-size: 56px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      🎬 Eman Method
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="hero">
+      <h1>Patch Videos for <span class="highlight">1080p 60fps</span><br>Without Quality Loss</h1>
+      <p>Enhance your video's metadata to maintain high framerates and resolutions.</p>
+      <p>Works on desktop browsers. Client-side processing, your video never leaves your device.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">📹</div>
+        <div class="feature-content">
+          <h3>1080p is the sweet spot</h3>
+          <p>Patch videos in <span class="accent">1080p (60fps or 120fps)</span> with optimized metadata. No need for 4K or 2K!</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💚</div>
+        <div class="feature-content">
+          <h3>100% Free Forever</h3>
+          <p>This tool will always be <span class="accent">completely free</span>. Client-side processing means no server costs!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <div class="upload-header">
+        <h2>☁️ Upload Your Video</h2>
+        <p>Get your patched file in seconds</p>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">🎥</div>
+        <div class="dropzone-text">Drop your video here or click to browse</div>
+        <div class="dropzone-subtext">MP4, MOV, M4V • Maximum 300MB</div>
+      </div>
+
+      <input type="file" id="fileInput" accept="video/mp4,video/x-m4v,*/*">
+
+      <div class="file-info" id="fileInfo">
+        <div class="file-icon">🎥</div>
+        <div class="file-details">
+          <div class="file-name" id="fileName"></div>
+          <div class="file-size" id="fileSize"></div>
+        </div>
+        <button class="remove-btn" id="removeBtn">×</button>
+      </div>
+
+      <button class="patch-btn" id="patchBtn" disabled>Patch Video</button>
+
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="status" id="status"></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const UI = {
+        dropzone: document.getElementById('dropzone'),
+        fileInput: document.getElementById('fileInput'),
+        fileInfo: document.getElementById('fileInfo'),
+        fileName: document.getElementById('fileName'),
+        fileSize: document.getElementById('fileSize'),
+        removeBtn: document.getElementById('removeBtn'),
+        patchBtn: document.getElementById('patchBtn'),
+        status: document.getElementById('status'),
+        progressBar: document.getElementById('progressBar'),
+        progressFill: document.getElementById('progressFill')
+      };
+
+      const PAD_COUNT = 9780;
+      const DURATION_INFLATION = 1438900000;
+      const DUMMY_NAL = new Uint8Array([0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00]);
+
+      let selectedFile = null;
+
+      function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+      }
+
+      function showStatus(msg, type = 'info') {
+        UI.status.textContent = msg;
+        UI.status.className = `status active ${type}`;
+      }
+
+      function setProgress(percent) {
+        UI.progressFill.style.width = percent + '%';
+      }
+
+      function handleFile(file) {
+        if (!file) return;
+        selectedFile = file;
+        UI.fileName.textContent = file.name;
+        UI.fileSize.textContent = formatFileSize(file.size);
+        UI.fileInfo.classList.add('active');
+        UI.patchBtn.disabled = false;
+        showStatus(`Ready: ${file.name}`, 'info');
+      }
+
+      UI.dropzone.addEventListener('click', () => UI.fileInput.click());
+
+      UI.dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        UI.dropzone.classList.add('dragover');
+      });
+
+      UI.dropzone.addEventListener('dragleave', () => {
+        UI.dropzone.classList.remove('dragover');
+      });
+
+      UI.dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        UI.dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      UI.fileInput.addEventListener('change', () => {
+        if (UI.fileInput.files.length > 0) {
+          handleFile(UI.fileInput.files[0]);
+        }
+      });
+
+      UI.removeBtn.addEventListener('click', () => {
+        selectedFile = null;
+        UI.fileInput.value = '';
+        UI.fileInfo.classList.remove('active');
+        UI.patchBtn.disabled = true;
+        UI.status.classList.remove('active');
+        UI.progressBar.classList.remove('active');
+      });
+
+      // 64-bit helpers
+      function readUint64(dv, offset) {
+        const hi = dv.getUint32(offset, false);
+        const lo = dv.getUint32(offset + 4, false);
+        return (hi * 4294967296) + lo;
+      }
+
+      function writeUint64(dv, offset, val) {
+        const hi = Math.floor(val / 4294967296);
+        const lo = val % 4294967296;
+        dv.setUint32(offset, hi, false);
+        dv.setUint32(offset + 4, lo, false);
+      }
+
+      async function readBytes(file, offset, length) {
+        return new Uint8Array(await file.slice(offset, offset + length).arrayBuffer());
+      }
+
+      function findBoxes(node, type) {
+        const res = [];
+        if (node.type === type) res.push(node);
+        for (const child of node.children || []) {
+          res.push(...findBoxes(child, type));
+        }
+        return res;
+      }
+
+      function recomputeSizes(node) {
+        if (node.children && node.children.length > 0) {
+          let s = node.headerSize;
+          for (const c of node.children) s += recomputeSizes(c);
+          node.size = s;
+        } else {
+          node.size = node.headerSize + node.data.length;
+        }
+        return node.size;
+      }
+
+      function serializeBox(node) {
+        const buffer = new Uint8Array(node.size);
+        const dv = new DataView(buffer.buffer);
+
+        if (node.headerSize === 8) {
+          dv.setUint32(0, node.size, false);
+          for (let i = 0; i < 4; i++) dv.setUint8(4 + i, node.type.charCodeAt(i));
+        } else {
+          dv.setUint32(0, 1, false);
+          for (let i = 0; i < 4; i++) dv.setUint8(4 + i, node.type.charCodeAt(i));
+          writeUint64(dv, 8, node.size);
+        }
+
+        if (node.children && node.children.length > 0) {
+          let offset = node.headerSize;
+          for (const c of node.children) {
+            const childBuf = serializeBox(c);
+            buffer.set(childBuf, offset);
+            offset += childBuf.length;
+          }
+        } else {
+          buffer.set(node.data, node.headerSize);
+        }
+        return buffer;
+      }
+
+      UI.patchBtn.addEventListener('click', async () => {
+        if (!selectedFile) return;
+
+        try {
+          UI.patchBtn.disabled = true;
+          UI.progressBar.classList.add('active');
+          setProgress(10);
+          showStatus("Processing: Mapping MP4 structure...", 'info');
+
+          let offset = 0;
+          let moovInfo = null, mdatInfo = null;
+          const topBoxes = [];
+
+          // Map top-level boxes
+          while (offset < selectedFile.size) {
+            const header = await readBytes(selectedFile, offset, 16);
+            if (header.length < 8) break;
+
+            const dv = new DataView(header.buffer);
+            let size = dv.getUint32(0, false);
+            const type = String.fromCharCode(...header.subarray(4, 8));
+            let headerSize = 8;
+
+            if (size === 1) {
+              size = Number(readUint64(dv, 8));
+              headerSize = 16;
+            } else if (size === 0) {
+              size = selectedFile.size - offset;
+            }
+
+            topBoxes.push({ type, offset, size, headerSize });
+            if (type === 'moov') moovInfo = { offset, size, headerSize };
+            if (type === 'mdat') mdatInfo = { offset, size, headerSize };
+            offset += size;
+          }
+
+          if (!moovInfo || !mdatInfo) throw new Error("Missing moov or mdat box. Invalid MP4.");
+
+          setProgress(25);
+          showStatus("Processing: Parsing moov tree...", 'info');
+
+          const moovBytes = await readBytes(selectedFile, moovInfo.offset, moovInfo.size);
+
+          function parseBoxes(buffer, boxOffset, end) {
+            const boxes = [];
+            while (boxOffset < end) {
+              const dv = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+              let size = dv.getUint32(boxOffset, false);
+              let type = String.fromCharCode(...buffer.subarray(boxOffset + 4, boxOffset + 8));
+              let headerSize = 8;
+
+              if (size === 1) {
+                size = Number(readUint64(dv, boxOffset + 8));
+                headerSize = 16;
+              }
+
+              const box = { type, size, headerSize, children: [], data: null };
+              const isContainer = ['trak', 'edts', 'mdia', 'minf', 'dinf', 'stbl', 'mvex', 'moof', 'traf'].includes(type);
+
+              if (isContainer) {
+                box.children = parseBoxes(buffer, boxOffset + headerSize, boxOffset + size);
+              } else {
+                box.data = new Uint8Array(buffer.buffer, buffer.byteOffset + boxOffset + headerSize, size - headerSize);
+              }
+              boxes.push(box);
+              boxOffset += size;
+            }
+            return boxes;
+          }
+
+          const moovTree = {
+            type: 'moov',
+            size: moovInfo.size,
+            headerSize: 8,
+            children: parseBoxes(moovBytes, 8, moovInfo.size)
+          };
+
+          setProgress(40);
+          showStatus("Processing: Patching tracks...", 'info');
+
+          const traks = findBoxes(moovTree, 'trak');
+          for (const trak of traks) {
+            const hdlr = findBoxes(trak, 'hdlr')[0];
+            let isVide = false;
+            if (hdlr) {
+              const subtype = String.fromCharCode(...hdlr.data.subarray(8, 12));
+              if (subtype === 'vide') isVide = true;
+            }
+
+            // Patch mdhd
+            const mdhd = findBoxes(trak, 'mdhd')[0];
+            if (mdhd) {
+              const dv = new DataView(mdhd.data.buffer, mdhd.data.byteOffset, mdhd.data.byteLength);
+              const v = dv.getUint8(0);
+              if (v === 0) {
+                const oldDur = dv.getUint32(16, false);
+                const newDur = Math.min(oldDur + DURATION_INFLATION, 0xFFFFFFFF);
+                dv.setUint32(16, newDur, false);
+              } else {
+                const oldDur = readUint64(dv, 24);
+                const newDur = oldDur + DURATION_INFLATION;
+                writeUint64(dv, 24, newDur);
+              }
+            }
+
+            // Patch stsz for video
+            if (isVide) {
+              const stsz = findBoxes(trak, 'stsz')[0];
+              if (stsz) {
+                const dv = new DataView(stsz.data.buffer, stsz.data.byteOffset, stsz.data.byteLength);
+                const sampleSize = dv.getUint32(4, false);
+                const oldCount = dv.getUint32(8, false);
+
+                const newData = new Uint8Array(12 + (oldCount + PAD_COUNT) * 4);
+                const newDv = new DataView(newData.buffer);
+
+                newDv.setUint32(0, dv.getUint32(0, false), false);
+                newDv.setUint32(4, 0, false);
+                newDv.setUint32(8, oldCount + PAD_COUNT, false);
+
+                if (sampleSize !== 0) {
+                  for (let i = 0; i < oldCount; i++) newDv.setUint32(12 + i * 4, sampleSize, false);
+                } else {
+                  newData.set(stsz.data.subarray(12), 12);
+                }
+
+                for (let i = 0; i < PAD_COUNT; i++) {
+                  newDv.setUint32(12 + oldCount * 4 + i * 4, 8, false);
+                }
+
+                stsz.data = newData;
+              }
+            }
+          }
+
+          setProgress(60);
+          showStatus("Processing: Updating offsets...", 'info');
+
+          let stcos = findBoxes(moovTree, 'stco');
+          const co64s = findBoxes(moovTree, 'co64');
+
+          for (const stco of stcos) {
+            const dv = new DataView(stco.data.buffer, stco.data.byteOffset, stco.data.byteLength);
+            const oldCount = dv.getUint32(4, false);
+            const newData = new Uint8Array(stco.data.length + PAD_COUNT * 4);
+            newData.set(stco.data);
+            const newDv = new DataView(newData.buffer);
+            newDv.setUint32(4, oldCount + PAD_COUNT, false);
+            stco.data = newData;
+            stco.oldCount = oldCount;
+          }
+
+          for (const co64 of co64s) {
+            const dv = new DataView(co64.data.buffer, co64.data.byteOffset, co64.data.byteLength);
+            const oldCount = dv.getUint32(4, false);
+            const newData = new Uint8Array(co64.data.length + PAD_COUNT * 8);
+            newData.set(co64.data);
+            const newDv = new DataView(newData.buffer);
+            newDv.setUint32(4, oldCount + PAD_COUNT, false);
+            co64.data = newData;
+            co64.oldCount = oldCount;
+          }
+
+          recomputeSizes(moovTree);
+          let moovGrowth = moovTree.size - moovInfo.size;
+          let mdatShift = (moovInfo.offset < mdatInfo.offset) ? moovGrowth : 0;
+          let targetOffset = mdatInfo.offset + mdatInfo.size + mdatShift;
+
+          // Check stco -> co64 conversion
+          for (let i = 0; i < stcos.length; i++) {
+            const stco = stcos[i];
+            const dv = new DataView(stco.data.buffer, stco.data.byteOffset, stco.data.byteLength);
+            let convert = (targetOffset > 0xFFFFFFFF);
+            for (let j = 0; j < stco.oldCount; j++) {
+              if (dv.getUint32(8 + j * 4, false) + mdatShift > 0xFFFFFFFF) convert = true;
+            }
+            if (convert) {
+              const newData = new Uint8Array(8 + (stco.oldCount + PAD_COUNT) * 8);
+              const newDv = new DataView(newData.buffer);
+              newDv.setUint32(0, dv.getUint32(0, false), false);
+              newDv.setUint32(4, stco.oldCount + PAD_COUNT, false);
+              for (let j = 0; j < stco.oldCount; j++) {
+                writeUint64(newDv, 8 + j * 8, dv.getUint32(8 + j * 4, false));
+              }
+              stco.type = 'co64';
+              stco.data = newData;
+              co64s.push(stco);
+              stcos[i] = null;
+            }
+          }
+          stcos = stcos.filter(x => x);
+
+          recomputeSizes(moovTree);
+          moovGrowth = moovTree.size - moovInfo.size;
+          mdatShift = (moovInfo.offset < mdatInfo.offset) ? moovGrowth : 0;
+          targetOffset = mdatInfo.offset + mdatInfo.size + mdatShift;
+
+          for (const stco of stcos) {
+            const dv = new DataView(stco.data.buffer, stco.data.byteOffset, stco.data.byteLength);
+            for (let i = 0; i < stco.oldCount; i++) {
+              dv.setUint32(8 + i * 4, dv.getUint32(8 + i * 4, false) + mdatShift, false);
+            }
+            for (let i = 0; i < PAD_COUNT; i++) {
+              dv.setUint32(8 + (stco.oldCount + i) * 4, targetOffset, false);
+            }
+          }
+
+          for (const co64 of co64s) {
+            const dv = new DataView(co64.data.buffer, co64.data.byteOffset, co64.data.byteLength);
+            for (let i = 0; i < co64.oldCount; i++) {
+              writeUint64(dv, 8 + i * 8, readUint64(dv, 8 + i * 8) + mdatShift);
+            }
+            for (let i = 0; i < PAD_COUNT; i++) {
+              writeUint64(dv, 8 + (co64.oldCount + i) * 8, targetOffset);
+            }
+          }
+
+          setProgress(80);
+          showStatus("Processing: Building output file...", 'info');
+
+          const parts = [];
+
+          const newMdatSize = mdatInfo.size + DUMMY_NAL.length;
+          let newMdatHeader;
+          if (mdatInfo.headerSize === 8) {
+            newMdatHeader = new Uint8Array(8);
+            const dv = new DataView(newMdatHeader.buffer);
+            dv.setUint32(0, newMdatSize, false);
+            dv.setUint8(4, 109); dv.setUint8(5, 100); dv.setUint8(6, 97); dv.setUint8(7, 116);
+          } else {
+            newMdatHeader = new Uint8Array(16);
+            const dv = new DataView(newMdatHeader.buffer);
+            dv.setUint32(0, 1, false);
+            dv.setUint8(4, 109); dv.setUint8(5, 100); dv.setUint8(6, 97); dv.setUint8(7, 116);
+            writeUint64(dv, 8, newMdatSize);
+          }
+
+          for (const b of topBoxes) {
+            if (b.type === 'moov') {
+              parts.push(serializeBox(moovTree));
+            } else if (b.type === 'mdat') {
+              parts.push(newMdatHeader);
+              parts.push(selectedFile.slice(b.offset + b.headerSize, b.offset + b.size));
+              parts.push(DUMMY_NAL);
+            } else {
+              parts.push(selectedFile.slice(b.offset, b.offset + b.size));
+            }
+          }
+
+          const finalBlob = new Blob(parts, { type: "video/mp4" });
+          const url = URL.createObjectURL(finalBlob);
+
+          setProgress(100);
+          showStatus("✅ Success! Downloading patched video...", 'success');
+
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${selectedFile.name.replace(/\.[^/.]+$/, '')}_emanmethod.mp4`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+            UI.patchBtn.disabled = false;
+            showStatus("✨ Done! File downloaded successfully", 'success');
+          }, 1000);
+
+        } catch (err) {
+          showStatus(`❌ Error: ${err.message}`, 'error');
+          UI.patchBtn.disabled = false;
+          UI.progressBar.classList.remove('active');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
