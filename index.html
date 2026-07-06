@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eman Method</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #0a0e1a;
+      color: #e5e7eb;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a:hover {
+      color: #3b82f6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero h1 .highlight {
+      color: #3b82f6;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #9ca3af;
+      max-width: 700px;
+      margin: 0 auto 10px;
+      line-height: 1.6;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    .feature-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(59, 130, 246, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      min-width: 40px;
+    }
+
+    .feature-content h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #e5e7eb;
+    }
+
+    .feature-content p {
+      font-size: 14px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .feature-content .accent {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    .upload-section {
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 20px;
+      padding: 50px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .upload-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .upload-header h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .upload-header p {
+      color: #9ca3af;
+      font-size: 16px;
+    }
+
+    .dropzone {
+      border: 3px dashed rgba(59, 130, 246, 0.4);
+      border-radius: 16px;
+      padding: 80px 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(15, 23, 42, 0.5);
+      margin-bottom: 30px;
+    }
+
+    .dropzone:hover {
+      border-color: #3b82f6;
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .dropzone.dragover {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.1);
+      transform: scale(1.01);
+    }
+
+    .dropzone-icon {
+      font-size: 72px;
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+
+    .dropzone-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 8px;
+    }
+
+    .dropzone-subtext {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .file-info {
+      display: none;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .file-info.active {
+      display: flex;
+    }
+
+    .file-icon {
+      font-size: 36px;
+    }
+
+    .file-details {
+      flex: 1;
+    }
+
+    .file-name {
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 6px;
+      word-break: break-all;
+    }
+
+    .file-size {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    .remove-btn {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+    }
+
+    .patch-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 18px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .patch-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(59, 130, 246, 0.5);
+    }
+
+    .patch-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .patch-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    .status.active {
+      display: block;
+    }
+
+    .status.info {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .status.success {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .status.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(30, 41, 59, 0.8);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .progress-bar.active {
+      display: block;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .container {
+        padding: 40px 20px;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .upload-section {
+        padding: 30px 20px;
+      }
+
+      .upload-header h2 {
+        font-size: 24px;
+      }
+
+      .dropzone {
+        padding: 50px 20px;
+      }
+
+      .dropzone-icon {
+        font-size: 56px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      Eman Method
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="hero">
+      <h1>Patch Videos for <span class="highlight">1080p 60fps</span><br>Without Quality Loss</h1>
+      <p>Enhance your video's metadata to maintain high framerates and resolutions.</p>
+      <p>Works on desktop browsers. Client-side processing, your video never leaves your device.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">📹</div>
+        <div class="feature-content">
+          <h3>1080p is the sweet spot</h3>
+          <p>Patch videos in <span class="accent">1080p (60fps or 120fps)</span> with optimized metadata. No need for 4K or 2K!</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💚</div>
+        <div class="feature-content">
+          <h3>100% Free Forever</h3>
+          <p>This tool will always be <span class="accent">completely free</span>. Client-side processing means no server costs!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <div class="upload-header">
+        <h2>☁️ Upload Your Video</h2>
+        <p>Get your patched file in seconds</p>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">🎥</div>
+        <div class="dropzone-text">Drop your video here or click to browse</div>
+        <div class="dropzone-subtext"></div>
+      </div>
+
+      <input type="file" id="fileInput" accept="video/mp4,video/x-m4v,*/*">
+
+      <div class="file-info" id="fileInfo">
+        <div class="file-icon">🎥</div>
+        <div class="file-details">
+          <div class="file-name" id="fileName"></div>
+          <div class="file-size" id="fileSize"></div>
+        </div>
+        <button class="remove-btn" id="removeBtn">×</button>
+      </div>
+
+      <button class="patch-btn" id="patchBtn" disabled>Patch Video</button>
+
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="status" id="status"></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const UI = {
+        dropzone: document.getElementById('dropzone'),
+        fileInput: document.getElementById('fileInput'),
+        fileInfo: document.getElementById('fileInfo'),
+        fileName: document.getElementById('fileName'),
+        fileSize: document.getElementById('fileSize'),
+        removeBtn: document.getElementById('removeBtn'),
+        patchBtn: document.getElementById('patchBtn'),
+        status: document.getElementById('status'),
+        progressBar: document.getElementById('progressBar'),
+        progressFill: document.getElementById('progressFill')
+      };
+
+      const EMAN_FAKE_SAMPLE_SIZE = 8;
+      const EMAN_VIDEO_INFLATION_FACTOR = 1368;
+      const EMAN_AUDIO_INFLATION_FACTOR = 2564;
+      const EMAN_BASE_FAKE_SAMPLES = 3972; // Base count for ~15 second videos
+      const EMAN_SAMPLES_PER_SECOND = 265; // Scale factor: ~3972/15
+
+      let selectedFile = null;
+
+      function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+      }
+
+      function showStatus(msg, type = 'info') {
+        UI.status.textContent = msg;
+        UI.status.className = `status active ${type}`;
+      }
+
+      function setProgress(percent) {
+        UI.progressFill.style.width = percent + '%';
+      }
+
+      function handleFile(file) {
+        if (!file) return;
+        selectedFile = file;
+        UI.fileName.textContent = file.name;
+        UI.fileSize.textContent = formatFileSize(file.size);
+        UI.fileInfo.classList.add('active');
+        UI.patchBtn.disabled = false;
+        showStatus(`Ready: ${file.name}`, 'info');
+      }
+
+      UI.dropzone.addEventListener('click', () => UI.fileInput.click());
+
+      UI.dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        UI.dropzone.classList.add('dragover');
+      });
+
+      UI.dropzone.addEventListener('dragleave', () => {
+        UI.dropzone.classList.remove('dragover');
+      });
+
+      UI.dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        UI.dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      UI.fileInput.addEventListener('change', () => {
+        if (UI.fileInput.files.length > 0) {
+          handleFile(UI.fileInput.files[0]);
+        }
+      });
+
+      UI.removeBtn.addEventListener('click', () => {
+        selectedFile = null;
+        UI.fileInput.value = '';
+        UI.fileInfo.classList.remove('active');
+        UI.patchBtn.disabled = true;
+        UI.status.classList.remove('active');
+        UI.progressBar.classList.remove('active');
+      });
+
+      const EMAN_SHARK_CONTAINER = new Set(['moov', 'trak', 'mdia', 'minf', 'stbl', 'edts', 'dinf', 'udta', 'meta', 'ilst']);
+
+      function emanGetBoxType(data, offset) {
+        return String.fromCharCode(data[offset], data[offset + 1], data[offset + 2], data[offset + 3]);
+      }
+
+      function emanSetBoxType(data, offset, type) {
+        for (let i = 0; i < 4; i++) data[offset + i] = type.charCodeAt(i);
+      }
+
+      function emanAssertUint32(value, label) {
+        if (!Number.isFinite(value) || value < 0 || value > 0xffffffff)
+          throw new Error(label + ' out of uint32 range: ' + value);
+      }
+
+      function emanReadBox(view, data, offset, end, parentPath) {
+        if (offset + 8 > end) throw new Error('Invalid MP4: incomplete box.');
+        const smallSize = view.getUint32(offset, false);
+        const type = emanGetBoxType(data, offset + 4);
+        let size = smallSize;
+        let headerSize = 8;
+        if (smallSize === 1) {
+          if (offset + 16 > end) throw new Error('Invalid MP4: incomplete box ' + type + '.');
+          const high = view.getUint32(offset + 8, false);
+          const low = view.getUint32(offset + 12, false);
+          size = high * 4294967296 + low;
+          headerSize = 16;
+        } else if (smallSize === 0) {
+          size = end - offset;
+        }
+        if (size < headerSize || offset + size > end)
+          throw new Error('Invalid MP4: incorrect size in box ' + type + '.');
+        return { type, offset, size, headerSize, contentStart: offset + headerSize, end: offset + size, path: parentPath ? parentPath + '/' + type : type, data, view, children: [], prefixStart: offset + headerSize, prefixEnd: offset + headerSize };
+      }
+
+      function emanChildStartForBox(box) {
+        return box.type === 'meta' ? box.contentStart + 4 : box.contentStart;
+      }
+
+      function emanParseBoxes(data, view, start, end, parentPath) {
+        const boxes = [];
+        let offset = start;
+        while (offset + 8 <= end) {
+          const box = emanReadBox(view, data, offset, end, parentPath);
+          if (EMAN_SHARK_CONTAINER.has(box.type)) {
+            const childStart = emanChildStartForBox(box);
+            if (childStart > box.end) throw new Error('Invalid MP4: container ' + box.type + ' too small.');
+            box.prefixStart = box.contentStart;
+            box.prefixEnd = childStart;
+            box.children = emanParseBoxes(data, view, childStart, box.end, box.path);
+          }
+          boxes.push(box);
+          offset = box.end;
+        }
+        return boxes;
+      }
+
+      function emanFindChild(box, type) {
+        return box.children.find(function(c) { return c.type === type; }) || null;
+      }
+
+      function emanFindDescendant(box, path) {
+        var current = box;
+        for (var i = 0; i < path.length; i++) {
+          current = emanFindChild(current, path[i]);
+          if (!current) return null;
+        }
+        return current;
+      }
+
+      function emanFindTopLevel(boxes, type) {
+        for (var i = 0; i < boxes.length; i++) {
+          if (boxes[i].type === type) return boxes[i];
+        }
+        return null;
+      }
+
+      function emanHandlerTypeForTrak(trak) {
+        const hdlr = emanFindDescendant(trak, ['mdia', 'hdlr']);
+        if (!hdlr || hdlr.offset + 20 > hdlr.end) return null;
+        return emanGetBoxType(hdlr.data, hdlr.offset + 16);
+      }
+
+      function emanParseStsz(stsz) {
+        const sampleSize = stsz.view.getUint32(stsz.offset + 12, false);
+        const count = stsz.view.getUint32(stsz.offset + 16, false);
+        if (sampleSize) {
+          var arr = new Array(count);
+          for (var i = 0; i < count; i++) arr[i] = sampleSize;
+          return arr;
+        }
+        const tableStart = stsz.offset + 20;
+        if (tableStart + count * 4 > stsz.end) throw new Error('Invalid MP4: stsz smaller than declared sample count.');
+        var sizes = [];
+        for (var i = 0; i < count; i++) sizes.push(stsz.view.getUint32(tableStart + i * 4, false));
+        return sizes;
+      }
+
+      function emanParseStco(stco) {
+        const count = stco.view.getUint32(stco.offset + 12, false);
+        const tableStart = stco.offset + 16;
+        if (tableStart + count * 4 > stco.end) throw new Error('Invalid MP4: stco smaller than declared chunk count.');
+        var offsets = [];
+        for (var i = 0; i < count; i++) offsets.push(stco.view.getUint32(tableStart + i * 4, false));
+        return offsets;
+      }
+
+      function emanParseStsc(stsc) {
+        const count = stsc.view.getUint32(stsc.offset + 12, false);
+        const tableStart = stsc.offset + 16;
+        if (tableStart + count * 12 > stsc.end) throw new Error('Invalid MP4: stsc smaller than declared entry count.');
+        var rows = [];
+        for (var i = 0; i < count; i++) {
+          const off = tableStart + i * 12;
+          rows.push([stsc.view.getUint32(off, false), stsc.view.getUint32(off + 4, false), stsc.view.getUint32(off + 8, false)]);
+        }
+        return rows;
+      }
+
+      function emanMakeBox(type, payload) {
+        const size = 8 + payload.length;
+        emanAssertUint32(size, type + '.size');
+        const box = new Uint8Array(size);
+        const view = new DataView(box.buffer);
+        view.setUint32(0, size, false);
+        emanSetBoxType(box, 4, type);
+        box.set(payload, 8);
+        return box;
+      }
+
+      function emanConcatBytes(parts) {
+        var total = 0;
+        for (var i = 0; i < parts.length; i++) total += parts[i].length;
+        emanAssertUint32(total, 'output_size');
+        const output = new Uint8Array(total);
+        var offset = 0;
+        for (var i = 0; i < parts.length; i++) {
+          output.set(parts[i], offset);
+          offset += parts[i].length;
+        }
+        return output;
+      }
+
+      function emanBoxPayload(box) {
+        return box.data.slice(box.contentStart, box.end);
+      }
+
+      function emanBuildMdhd(box, factor) {
+        const payload = emanBoxPayload(box);
+        const view = new DataView(payload.buffer);
+        const version = payload[0];
+        if (version === 0) {
+          var dur = view.getUint32(16, false);
+          var newDur = dur * factor;
+          if (newDur > 0xFFFFFFFF) newDur = 0xFFFFFFFF;
+          view.setUint32(16, newDur, false);
+        } else {
+          var durHi = view.getUint32(24, false);
+          var durLo = view.getUint32(28, false);
+          var bigNewDur = (BigInt(durHi) * 4294967296n + BigInt(durLo)) * BigInt(factor);
+          view.setUint32(24, Number((bigNewDur >> 32n) & 0xffffffffn));
+          view.setUint32(28, Number(bigNewDur & 0xffffffffn));
+        }
+        return emanMakeBox('mdhd', payload);
+      }
+
+      function emanBuildStsz(sizes) {
+        const totalSamples = sizes.length;
+        const payload = new Uint8Array(12 + totalSamples * 4);
+        const view = new DataView(payload.buffer);
+        view.setUint32(8, totalSamples, false);
+        var offset = 12;
+        for (var i = 0; i < totalSamples; i++) {
+          view.setUint32(offset, sizes[i], false);
+          offset += 4;
+        }
+        return emanMakeBox('stsz', payload);
+      }
+
+      function emanBuildStsc(rows) {
+        const payload = new Uint8Array(8 + rows.length * 12);
+        const view = new DataView(payload.buffer);
+        view.setUint32(4, rows.length, false);
+        var offset = 8;
+        for (var i = 0; i < rows.length; i++) {
+          view.setUint32(offset, rows[i][0], false);
+          view.setUint32(offset + 4, rows[i][1], false);
+          view.setUint32(offset + 8, rows[i][2], false);
+          offset += 12;
+        }
+        return emanMakeBox('stsc', payload);
+      }
+
+      function emanBuildStco(offsets) {
+        const count = offsets.length;
+        const payload = new Uint8Array(8 + count * 4);
+        const view = new DataView(payload.buffer);
+        view.setUint32(4, count, false);
+        var offset = 8;
+        for (var i = 0; i < count; i++) {
+          emanAssertUint32(offsets[i], 'stco.chunk_offset');
+          view.setUint32(offset, offsets[i], false);
+          offset += 4;
+        }
+        return emanMakeBox('stco', payload);
+      }
+
+      function emanRebuildBox(box, replacements) {
+        if (replacements.has(box)) return replacements.get(box);
+        if (!box.children.length) return box.data.slice(box.offset, box.end);
+        var parts = [box.data.slice(box.prefixStart, box.prefixEnd)];
+        for (var i = 0; i < box.children.length; i++) parts.push(emanRebuildBox(box.children[i], replacements));
+        return emanMakeBox(box.type, emanConcatBytes(parts));
+      }
+
+      UI.patchBtn.addEventListener('click', async () => {
+        if (!selectedFile) return;
+
+        try {
+          UI.patchBtn.disabled = true;
+          UI.progressBar.classList.add('active');
+          setProgress(10);
+          showStatus("Processing: Reading file...", 'info');
+
+          const arrayBuffer = await selectedFile.arrayBuffer();
+
+          setProgress(30);
+          showStatus("Processing: Parsing MP4 structure...", 'info');
+
+          const data = new Uint8Array(arrayBuffer);
+          const view = new DataView(arrayBuffer);
+          const topLevel = emanParseBoxes(data, view, 0, data.length, '');
+
+          const ftyp = emanFindTopLevel(topLevel, 'ftyp');
+          const moov = emanFindTopLevel(topLevel, 'moov');
+          const mdat = emanFindTopLevel(topLevel, 'mdat');
+
+          if (!ftyp) throw new Error('Box "ftyp" not found. File must be valid MP4.');
+          if (!moov) throw new Error('Box "moov" not found. File must have complete MP4 metadata.');
+          if (!mdat) throw new Error('Box "mdat" not found. File must contain MP4 media.');
+
+          setProgress(45);
+          showStatus("Processing: Finding tracks...", 'info');
+
+          const videoTrak = moov.children.find(function(c) { return c.type === 'trak' && emanHandlerTypeForTrak(c) === 'vide'; });
+          if (!videoTrak) throw new Error('Video track not found.');
+
+          const audioTrak = moov.children.find(function(c) { return c.type === 'trak' && emanHandlerTypeForTrak(c) === 'soun'; });
+
+          const vStbl = emanFindDescendant(videoTrak, ['mdia', 'minf', 'stbl']);
+          const vMdhd = emanFindDescendant(videoTrak, ['mdia', 'mdhd']);
+          const vStsc = vStbl && emanFindChild(vStbl, 'stsc');
+          const vStsz = vStbl && emanFindChild(vStbl, 'stsz');
+          const vStco = vStbl && emanFindChild(vStbl, 'stco');
+
+          if (!vStbl || !vMdhd || !vStsc || !vStsz || !vStco)
+            throw new Error('MP4 missing required tables: mdhd, stsc, stsz and stco.');
+
+          setProgress(60);
+          showStatus("Processing: Patching video track...", 'info');
+
+          const vOrigSizes = emanParseStsz(vStsz);
+          const vOrigStsc = emanParseStsc(vStsc);
+          const vOrigChunks = emanParseStco(vStco);
+          const vRealChunks = vOrigChunks.length;
+
+          // Calculate video duration to scale fake samples
+          const vTimescale = vMdhd.view.getUint32(vMdhd.offset + 20, false);
+          const vDurOffset = (vMdhd.data[vMdhd.offset + 8] === 0) ? vMdhd.offset + 24 : vMdhd.offset + 32;
+          let vDuration;
+          if (vMdhd.data[vMdhd.offset + 8] === 0) {
+            vDuration = vMdhd.view.getUint32(vDurOffset, false);
+          } else {
+            const durHi = vMdhd.view.getUint32(vDurOffset, false);
+            const durLo = vMdhd.view.getUint32(vDurOffset + 4, false);
+            vDuration = durHi * 4294967296 + durLo;
+          }
+          const vDurationSeconds = vDuration / vTimescale;
+          const EMAN_FAKE_SAMPLE_COUNT = Math.max(EMAN_BASE_FAKE_SAMPLES, Math.floor(vDurationSeconds * EMAN_SAMPLES_PER_SECOND));
+
+          var aOrigSizes = [], aOrigStsc = [], aOrigChunks = [], aRealChunks = 0;
+          var aStco = null, aStsz = null, aStsc = null, aMdhd = null;
+          if (audioTrak) {
+            const aStbl = emanFindDescendant(audioTrak, ['mdia', 'minf', 'stbl']);
+            aMdhd = emanFindDescendant(audioTrak, ['mdia', 'mdhd']);
+            aStsz = aStbl && emanFindChild(aStbl, 'stsz');
+            aStco = aStbl && emanFindChild(aStbl, 'stco');
+            aStsc = aStbl && emanFindChild(aStbl, 'stsc');
+            if (aStsz && aStco && aStsc && aMdhd) {
+              aOrigSizes = emanParseStsz(aStsz);
+              aOrigStsc = emanParseStsc(aStsc);
+              aOrigChunks = emanParseStco(aStco);
+              aRealChunks = aOrigChunks.length;
+            }
+          }
+
+          var replacements = new Map();
+
+          replacements.set(vMdhd, emanBuildMdhd(vMdhd, EMAN_VIDEO_INFLATION_FACTOR));
+
+          var vStszSizes = vOrigSizes.slice();
+          for (var i = 0; i < EMAN_FAKE_SAMPLE_COUNT; i++) vStszSizes.push(EMAN_FAKE_SAMPLE_SIZE);
+          replacements.set(vStsz, emanBuildStsz(vStszSizes));
+
+          var vStscRows = vOrigStsc.slice();
+          vStscRows.push([vRealChunks + 1, 1, 1]);
+          replacements.set(vStsc, emanBuildStsc(vStscRows));
+
+          var vPlaceholderOffsets = [];
+          for (var i = 0; i < vRealChunks + EMAN_FAKE_SAMPLE_COUNT; i++) vPlaceholderOffsets.push(0);
+          replacements.set(vStco, emanBuildStco(vPlaceholderOffsets));
+
+          if (aStco && aStsz && aStsc && aMdhd) {
+            replacements.set(aMdhd, emanBuildMdhd(aMdhd, EMAN_AUDIO_INFLATION_FACTOR));
+            var aStszSizes = aOrigSizes.slice();
+            for (var i = 0; i < EMAN_FAKE_SAMPLE_COUNT; i++) aStszSizes.push(EMAN_FAKE_SAMPLE_SIZE);
+            replacements.set(aStsz, emanBuildStsz(aStszSizes));
+            var aStscRows = aOrigStsc.slice();
+            aStscRows.push([aRealChunks + 1, 1, 1]);
+            replacements.set(aStsc, emanBuildStsc(aStscRows));
+            var aPlaceholderOffsets = [];
+            for (var i = 0; i < aRealChunks + EMAN_FAKE_SAMPLE_COUNT; i++) aPlaceholderOffsets.push(0);
+            replacements.set(aStco, emanBuildStco(aPlaceholderOffsets));
+          }
+
+          setProgress(75);
+          showStatus("Processing: Rebuilding structure...", 'info');
+
+          var preservedTopLevel = [];
+          for (var i = 0; i < topLevel.length; i++) {
+            const box = topLevel[i];
+            if (box.type !== 'ftyp' && box.type !== 'moov' && box.type !== 'mdat')
+              preservedTopLevel.push(box.data.slice(box.offset, box.end));
+          }
+          var preservedBytes = emanConcatBytes(preservedTopLevel);
+
+          var moovPlaceholder = emanRebuildBox(moov, replacements);
+          var mdatPayload = data.slice(mdat.contentStart, mdat.end);
+          var newMdatStart = ftyp.size + moovPlaceholder.length + preservedBytes.length;
+          var newMdatDataStart = newMdatStart + 8;
+          var mdatBox = emanMakeBox('mdat', mdatPayload);
+          var fileSize = newMdatStart + mdatBox.length;
+          var eof8 = fileSize - 8;
+          var delta = newMdatDataStart - mdat.contentStart;
+
+          var vFinalOffsets = [];
+          for (var i = 0; i < vRealChunks; i++) vFinalOffsets.push(vOrigChunks[i] + delta);
+          for (var i = 0; i < EMAN_FAKE_SAMPLE_COUNT; i++) vFinalOffsets.push(eof8);
+          replacements.set(vStco, emanBuildStco(vFinalOffsets));
+
+          if (aStco) {
+            var aFinalOffsets = [];
+            for (var i = 0; i < aRealChunks; i++) aFinalOffsets.push(aOrigChunks[i] + delta);
+            for (var i = 0; i < EMAN_FAKE_SAMPLE_COUNT; i++) aFinalOffsets.push(eof8);
+            replacements.set(aStco, emanBuildStco(aFinalOffsets));
+          }
+
+          setProgress(90);
+          showStatus("Processing: Finalizing output...", 'info');
+
+          var moovNew = emanRebuildBox(moov, replacements);
+          var output = emanConcatBytes([ftyp.data.slice(ftyp.offset, ftyp.end), moovNew, preservedBytes, mdatBox]);
+
+          const finalBlob = new Blob([output], { type: "video/mp4" });
+          const url = URL.createObjectURL(finalBlob);
+
+          setProgress(100);
+          showStatus("✅ Success! Downloading patched video...", 'success');
+
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${selectedFile.name.replace(/\.[^/.]+$/, '')}_emanmethod.mp4`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+            UI.patchBtn.disabled = false;
+            showStatus("✨ Done! File downloaded successfully", 'success');
+          }, 1000);
+
+        } catch (err) {
+          showStatus(`❌ Error: ${err.message}`, 'error');
+          UI.patchBtn.disabled = false;
+          UI.progressBar.classList.remove('active');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
