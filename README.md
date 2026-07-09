@@ -1,2 +1,2 @@
 # EmanMethodPatcher
-Online patcher no need install extension
+Online patcher from web easy to use and will forever be free❤️
